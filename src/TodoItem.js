@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { updateTodoToFirebase } from './actions'
 
-export default ({children}) => (
-    <View style={styles.wrapper}>
-        <View style={styles.buttonWrapper}>
-            <TouchableOpacity style={styles.button}/>
-        </View>
-        <View style={styles.textWrapper}>
-            <Text style={styles.text}>
-                {children}
-            </Text>
-        </View>
-    </View>
-)
+class TodoItem extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            isCompleted: false,
+            todo: props.children
+        }
+    }
 
+    onCompletedPress () {
+        this.setState({isCompleted: !this.state.isCompleted});
+    }
+    
+    onChangeInputText (todo) {
+        this.setState({todo});
+    }
+    
+    onBlurInputText () {
+        this.props.updateTodoToFirebase(this.props.index, this.state.todo);
+    }
+
+    render() {
+        return (
+            <View style={styles.wrapper}>
+                <View style={styles.buttonWrapper}>
+                    <TouchableOpacity style={styles.button} onPress={this.onCompletedPress.bind(this)}>
+                        <View style={this.state.isCompleted ? styles.buttonBackground : null}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.textWrapper}>
+                    <TextInput style={styles.text} autoCorrect={false} value={this.state.todo} onChangeText={this.onChangeInputText.bind(this)} onBlur={this.onBlurInputText.bind(this)}/>
+                </View>
+            </View>
+        )
+    }
+}
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
@@ -33,7 +58,15 @@ const styles = StyleSheet.create({
         width: 27,
         borderRadius: 50,
         borderWidth: 1,
-        borderColor: '#e5e5e5'
+        borderColor: '#c1c1c1',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    buttonBackground: {
+        height: 18,
+        width: 18,
+        borderRadius: 50,
+        backgroundColor: '#588B8B'
     },
     textWrapper: {
         borderColor: '#e5e5e5',
@@ -44,4 +77,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         fontSize: 18,
     },
-})
+});
+
+export default connect(null, { updateTodoToFirebase })(TodoItem)

@@ -21,7 +21,7 @@ class TodoList extends Component {
         return (
             <ScrollView style={styles.listStyle}>
                 {this.props.todo.map((val, index) => 
-                    <TodoItem key={index}>
+                    <TodoItem key={index} index={index}>
                         {val}
                     </TodoItem>
                 )}
