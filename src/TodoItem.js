@@ -2,37 +2,46 @@ import React, { Component } from 'react';
 import { StyleSheet, Image, Text, View, TouchableOpacity } from 'react-native';
 
 export default ({children}) => (
-    <View style={styles.item}>
-        <Text>
-            {children}
-        </Text>
+    <View style={styles.wrapper}>
         <View style={styles.buttonWrapper}>
-            <TouchableOpacity>
-                <Image style={styles.button} source={require('../assets/pencil.png')}/>
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Image style={styles.button} source={require('../assets/trash.png')}/>
-            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}/>
+        </View>
+        <View style={styles.textWrapper}>
+            <Text style={styles.text}>
+                {children}
+            </Text>
         </View>
     </View>
 )
 
 const styles = StyleSheet.create({
-    item: {
+    wrapper: {
         flex: 1,
-        borderWidth: 1,
-        height: 60,
+        borderColor: '#e5e5e5',
+        height: 40,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-        paddingLeft: 20
-    },
-    button: {
-        height: 20,
-        width: 20
     },
     buttonWrapper: {
-        flexDirection: 'row',
+        width: 40,
         justifyContent: 'center',
-    }
+        alignItems: 'center',
+    },
+    button: {
+        height: 27,
+        width: 27,
+        borderRadius: 50,
+        borderWidth: 1,
+        borderColor: '#e5e5e5'
+    },
+    textWrapper: {
+        borderColor: '#e5e5e5',
+        flex: 1,
+        borderBottomWidth: 1
+    },
+    text: {
+        paddingLeft: 10,
+        fontSize: 18,
+    },
 })

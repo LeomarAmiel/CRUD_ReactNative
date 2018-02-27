@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import TodoItem from './TodoItem';
+import AddTodo from './AddTodo';
 import { fetchFromFirebase } from './actions';
 
 class TodoList extends Component {
-    componentDidMount() {
-        this.props.fetchFromFirebase();
+    constructor(props){
+        super(props);
+        props.fetchFromFirebase();
     }
 
     renderItem = ({ item }) => (
@@ -17,12 +19,14 @@ class TodoList extends Component {
 
     render() {
         return (
-            <FlatList
-                style={styles.listStyle}
-                renderItem={this.renderItem}
-                data={this.props.todo}
-                keyExtractor={(item, index) => index}
-            />
+            <ScrollView style={styles.listStyle}>
+                {this.props.todo.map((val, index) => 
+                    <TodoItem key={index}>
+                        {val}
+                    </TodoItem>
+                )}
+                <AddTodo/>
+            </ScrollView>
         );
     }
 };

@@ -10,9 +10,12 @@ export const fetchFromFirebase = () => (dispatch) => (
 export const addToFirebase = (todo) => (dispatch) => (
     db.collection('todos').doc('TMts7PEm7oyYJAMk0nVQ').get()
         .then((doc) => {
-            var newArr = doc.data().todo;
-            newArr.push(todo);
-            dispatch(addTodo(newArr));
+            console.log(todo);
+            db.doc('todos/TMts7PEm7oyYJAMk0nVQ').set({
+                todo: [...doc.data().todo, todo]
+            });
+            dispatch(addTodo(todo));
+            dispatch(finishAddTodo());
         })
 );
 
@@ -26,3 +29,12 @@ export const addTodo = (payload) => ({
     type: "ADD_TODO",
     payload
 });
+
+export const changeAddTodo = (payload) => ({
+    type: "CHANGE_ADDTODO",
+    payload
+});
+
+const finishAddTodo = () => ({
+    type: "FINISH_ADDTODO"
+})
