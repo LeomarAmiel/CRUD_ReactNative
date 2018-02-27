@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import TodoItem from './TodoItem';
-import { fetchData } from './actions';
+import { fetchFromFirebase } from './actions';
 
 class TodoList extends Component {
     componentDidMount() {
-        this.props.fetchData();
+        this.props.fetchFromFirebase();
     }
 
     renderItem = ({ item }) => (
@@ -30,7 +30,6 @@ class TodoList extends Component {
 const styles = StyleSheet.create({
     listStyle: {
         flex: 1,
-        borderWidth: 1,
     }
 })
 
@@ -38,4 +37,4 @@ const mapStateToProps = (state) => ({
     todo: state.todo
 })
 
-export default connect(mapStateToProps, {fetchData})(TodoList)
+export default connect(mapStateToProps, {fetchFromFirebase})(TodoList)
