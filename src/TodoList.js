@@ -12,9 +12,8 @@ class TodoList extends Component {
     }
 
     componentWillUpdate(){
-        console.log('Does this run?');
         UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
-        LayoutAnimation.spring();
+        LayoutAnimation.easeInEaseOut();
     }
 
     render() {
@@ -22,7 +21,6 @@ class TodoList extends Component {
             <ScrollView style={styles.listStyle}>
                 {this.props.todo.map(({todo, completed}, index) => {
                     if(!completed) {
-                        console.log(todo, completed);
                         return (
                             <TodoItem key={index} index={index}>
                                 {todo}

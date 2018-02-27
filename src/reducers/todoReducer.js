@@ -1,7 +1,6 @@
-var initialState = [];
+const initialState = [];
 
 export default (state = initialState, action) => {
-    console.log(action);
     switch(action.type){
         case 'GET_TODO': 
             return [...state, ...action.payload];
