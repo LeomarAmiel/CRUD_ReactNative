@@ -61,13 +61,15 @@ const styles = StyleSheet.create({
     button: {
         height: 27,
         width: 27,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     indicatorActive: {
-        fontSize: 32,
+        fontSize: 36,
         color: '#4095F7',
     },
     indicatorInactive: {
-        fontSize: 32,
+        fontSize: 36,
         color: '#e5e5e5',
     },
     inputWrapper: {
@@ -77,11 +79,8 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: SCREEN_WIDTH,
-        borderBottomWidth: 1,
-        borderColor: '#e5e5e5',
-        height: 40,
-        fontSize: 18,
         paddingLeft: 10,
+        fontSize: 18,
     }
 })
 
