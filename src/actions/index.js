@@ -12,35 +12,46 @@ export const addToFirebase = (todo) => (dispatch) => (
     db.collection('todos').doc('TMts7PEm7oyYJAMk0nVQ').get()
         .then((doc) => {
             db.doc('todos/TMts7PEm7oyYJAMk0nVQ').set({
-                todo: [...doc.data().todo, todo]
-            })        
+                todo: [...doc.data().todo, {todo, completed: false}]
+            })   
             .catch(err => console.log(err))
-            
-            dispatch(addTodo(todo));
+            dispatch(addTodo({todo, completed: false}));
             dispatch(finishAddTodo());
         })
         .catch(err => console.log(err))
-);
+    );
 
-export const updateTodoToFirebase = (index, todo) => (dispatch) => (
+export const updateTodoOnFirebase = (index, todo) => (dispatch) => (
     db.collection('todos').doc('TMts7PEm7oyYJAMk0nVQ').get()
     .then((doc) => {
         data = doc.data().todo;
         db.doc('todos/TMts7PEm7oyYJAMk0nVQ').set({
-            todo: [...data.slice(0, index), todo, ...data.slice(index+1)]
+            todo: [...data.slice(0, index), { todo, completed: false }, ...data.slice(index+1)]
         })
-        .then(() => dispatch(updateTodo({index, todo})))
+        .then(() => dispatch(updateTodo([...data.slice(0, index), { todo, completed: false }, ...data.slice(index+1)])))
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
 )
 
-export const fetchData = (payload) => ({
+export const completeTodoOnFirebase = (index, todo) => (dispatch) => (
+    db.collection('todos').doc('TMts7PEm7oyYJAMk0nVQ').get()
+    .then((doc) => {
+        data = doc.data().todo;
+        db.doc('todos/TMts7PEm7oyYJAMk0nVQ').set({
+            todo: [...data.slice(0, index), { todo, completed: true }, ...data.slice(index+1)],
+        })
+        .then(() => dispatch(updateTodo([...data.slice(0, index), { todo, completed: true }, ...data.slice(index+1)])))
+        .catch(err => console.log(err))
+    })
+)
+
+const fetchData = (payload) => ({
     type: "GET_TODO",
     payload
 });
 
-export const addTodo = (payload) => ({
+const addTodo = (payload) => ({
     type: "ADD_TODO",
     payload
 });
@@ -50,7 +61,7 @@ export const changeAddTodo = (payload) => ({
     payload
 });
 
-export const updateTodo = (payload) => ({
+const updateTodo = (payload) => ({
     type: "UPDATE_TODO",
     payload
 })

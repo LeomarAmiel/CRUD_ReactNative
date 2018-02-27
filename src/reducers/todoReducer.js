@@ -8,7 +8,7 @@ export default (state = initialState, action) => {
         case 'ADD_TODO':
             return [...state, action.payload];
         case 'UPDATE_TODO':
-            return [...state.slice(0, action.payload.index), action.payload.todo, ...state.slice(action.payload.index+1)];
+            return action.payload;
         default: 
             return state;
     }

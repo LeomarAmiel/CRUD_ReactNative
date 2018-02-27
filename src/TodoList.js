@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, UIManager, LayoutAnimation } from 'react-native';
 import { connect } from 'react-redux';
 import TodoItem from './TodoItem';
 import AddTodo from './AddTodo';
@@ -11,20 +11,25 @@ class TodoList extends Component {
         props.fetchFromFirebase();
     }
 
-    renderItem = ({ item }) => (
-        <TodoItem>
-            {item}
-        </TodoItem>
-    );
+    componentWillUpdate(){
+        console.log('Does this run?');
+        UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+        LayoutAnimation.spring();
+    }
 
     render() {
         return (
             <ScrollView style={styles.listStyle}>
-                {this.props.todo.map((val, index) => 
-                    <TodoItem key={index} index={index}>
-                        {val}
-                    </TodoItem>
-                )}
+                {this.props.todo.map(({todo, completed}, index) => {
+                    if(!completed) {
+                        console.log(todo, completed);
+                        return (
+                            <TodoItem key={index} index={index}>
+                                {todo}
+                            </TodoItem>
+                        )
+                    }
+                })}
                 <AddTodo/>
             </ScrollView>
         );
@@ -34,6 +39,7 @@ class TodoList extends Component {
 const styles = StyleSheet.create({
     listStyle: {
         flex: 1,
+        paddingBottom: 100
     }
 })
 

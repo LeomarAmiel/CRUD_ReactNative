@@ -38,7 +38,7 @@ class AddTodo extends Component {
                     </TouchableOpacity>
                 </View>        
                <View style={styles.inputWrapper}>
-                    <TextInput style={styles.textInput} autoCorrect={false} value={this.props.todo} onChangeText={this.inputChange.bind(this)} />
+                    <TextInput multiline style={styles.textInput} autoCorrect={false} value={this.props.todo} onChangeText={this.inputChange.bind(this)} />
                 </View>
             </View>
         )

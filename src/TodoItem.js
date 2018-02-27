@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { updateTodoToFirebase } from './actions'
+import { updateTodoOnFirebase, completeTodoOnFirebase } from './actions'
 
 class TodoItem extends Component {
     constructor(props){
@@ -14,6 +14,7 @@ class TodoItem extends Component {
 
     onCompletedPress () {
         this.setState({isCompleted: !this.state.isCompleted});
+        this.props.completeTodoOnFirebase(this.props.index, this.state.todo);
     }
     
     onChangeInputText (todo) {
@@ -21,7 +22,7 @@ class TodoItem extends Component {
     }
     
     onBlurInputText () {
-        this.props.updateTodoToFirebase(this.props.index, this.state.todo);
+        this.props.updateTodoOnFirebase(this.props.index, this.state.todo);
     }
 
     render() {
@@ -33,7 +34,7 @@ class TodoItem extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.textWrapper}>
-                    <TextInput style={styles.text} autoCorrect={false} value={this.state.todo} onChangeText={this.onChangeInputText.bind(this)} onBlur={this.onBlurInputText.bind(this)}/>
+                    <TextInput multiline style={styles.text} autoCorrect={false} value={this.state.todo} onChangeText={this.onChangeInputText.bind(this)} onBlur={this.onBlurInputText.bind(this)}/>
                 </View>
             </View>
         )
@@ -79,4 +80,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(null, { updateTodoToFirebase })(TodoItem)
+export default connect(null, { updateTodoOnFirebase, completeTodoOnFirebase })(TodoItem)
