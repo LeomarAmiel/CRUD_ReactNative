@@ -11,7 +11,7 @@ class TodoItem extends Component {
             todo: props.children
         }
     }
-
+    
     onCompletedPress () {
         this.setState({isCompleted: !this.state.isCompleted});
         this.props.completeTodoOnFirebase(this.props.index, this.state.todo);
@@ -34,7 +34,7 @@ class TodoItem extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.textWrapper}>
-                    <TextInput multiline style={styles.text} autoCorrect={false} value={this.state.todo} onChangeText={this.onChangeInputText.bind(this)} onBlur={this.onBlurInputText.bind(this)}/>
+                    <TextInput multiline style={styles.text} autoCorrect={false} value={this.props.data} onChangeText={this.onChangeInputText.bind(this)} onBlur={this.onBlurInputText.bind(this)}/>
                 </View>
             </View>
         )

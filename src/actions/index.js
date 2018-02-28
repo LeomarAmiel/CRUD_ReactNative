@@ -46,6 +46,11 @@ export const completeTodoOnFirebase = (index, todo) => (dispatch) => (
     })
 )
 
+export const showCompleted = (payload) => ({
+    type: "SHOW_COMPLETED",
+    payload
+})
+
 const fetchData = (payload) => ({
     type: "GET_TODO",
     payload

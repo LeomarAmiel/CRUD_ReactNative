@@ -16,18 +16,21 @@ class TodoList extends Component {
         LayoutAnimation.easeInEaseOut();
     }
 
+    filterItems = () => {
+        return this.props.todo.filter((todo, index) => 
+            todo.completed === this.props.isShowingCompleted
+        )
+    }
+
     render() {
+        var filteredItems = this.filterItems().map(({todo, completed}, index) => (
+            <TodoItem key={index} index={index} data={todo}/>
+        ));
         return (
             <ScrollView style={styles.listStyle}>
-                {this.props.todo.map(({todo, completed}, index) => {
-                    if(!completed) {
-                        return (
-                            <TodoItem key={index} index={index}>
-                                {todo}
-                            </TodoItem>
-                        )
-                    }
-                })}
+                {
+                    filteredItems
+                }
                 <AddTodo/>
             </ScrollView>
         );
@@ -37,12 +40,12 @@ class TodoList extends Component {
 const styles = StyleSheet.create({
     listStyle: {
         flex: 1,
-        paddingBottom: 100
     }
 })
 
 const mapStateToProps = (state) => ({
-    todo: state.todo
+    todo: state.todo,
+    isShowingCompleted: state.filter
 })
 
-export default connect(mapStateToProps, {fetchFromFirebase})(TodoList)
+export default connect(mapStateToProps, {fetchFromFirebase,})(TodoList)
