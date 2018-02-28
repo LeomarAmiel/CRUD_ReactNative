@@ -23,13 +23,12 @@ class TodoList extends Component {
     }
 
     render() {
-        var filteredItems = this.filterItems().map(({todo, completed}, index) => (
-            <TodoItem key={index} index={index} data={todo}/>
-        ));
         return (
             <ScrollView style={styles.listStyle}>
                 {
-                    filteredItems
+                    this.filterItems().map(({todo, completed, id}) => (
+                        <TodoItem key={id} index={id} data={todo} completed={completed}/>
+                    ))
                 }
                 <AddTodo/>
             </ScrollView>

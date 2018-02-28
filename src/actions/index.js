@@ -12,10 +12,10 @@ export const addToFirebase = (todo) => (dispatch) => (
     db.collection('todos').doc('TMts7PEm7oyYJAMk0nVQ').get()
         .then((doc) => {
             db.doc('todos/TMts7PEm7oyYJAMk0nVQ').set({
-                todo: [...doc.data().todo, {todo, completed: false}]
+                todo: [...doc.data().todo, {todo, completed: false, id: doc.data().todo.length}]
             })   
             .catch(err => console.log(err))
-            dispatch(addTodo({todo, completed: false}));
+            dispatch(addTodo({todo, completed: false, id: doc.data().todo.length}));
             dispatch(finishAddTodo());
         })
         .catch(err => console.log(err))
@@ -26,22 +26,22 @@ export const updateTodoOnFirebase = (index, todo) => (dispatch) => (
     .then((doc) => {
         data = doc.data().todo;
         db.doc('todos/TMts7PEm7oyYJAMk0nVQ').set({
-            todo: [...data.slice(0, index), { todo, completed: false }, ...data.slice(index+1)]
+            todo: [...data.slice(0, index), { id: index, todo, completed: false }, ...data.slice(index+1)]
         })
-        .then(() => dispatch(updateTodo([...data.slice(0, index), { todo, completed: false }, ...data.slice(index+1)])))
+        .then(() => dispatch(updateTodo([...data.slice(0, index), { id: index, todo, completed: false }, ...data.slice(index+1)])))
         .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
 )
 
-export const completeTodoOnFirebase = (index, todo) => (dispatch) => (
+export const completeTodoOnFirebase = (index, todo, completed) => (dispatch) => (
     db.collection('todos').doc('TMts7PEm7oyYJAMk0nVQ').get()
     .then((doc) => {
         data = doc.data().todo;
         db.doc('todos/TMts7PEm7oyYJAMk0nVQ').set({
-            todo: [...data.slice(0, index), { todo, completed: true }, ...data.slice(index+1)],
+            todo: [...data.slice(0, index), { id: index, todo, completed: !completed }, ...data.slice(index+1)],
         })
-        .then(() => dispatch(updateTodo([...data.slice(0, index), { todo, completed: true }, ...data.slice(index+1)])))
+        .then(() => dispatch(updateTodo([...data.slice(0, index), { id: index, todo, completed: !completed }, ...data.slice(index+1)])))
         .catch(err => console.log(err))
     })
 )

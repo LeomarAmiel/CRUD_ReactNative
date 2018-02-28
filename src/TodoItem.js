@@ -6,15 +6,16 @@ import { updateTodoOnFirebase, completeTodoOnFirebase } from './actions'
 class TodoItem extends Component {
     constructor(props){
         super(props);
+        console.log(props.completed);
         this.state = {
-            isCompleted: false,
-            todo: props.children
+            isCompleted: props.completed,
+            todo: props.data
         }
     }
     
     onCompletedPress () {
         this.setState({isCompleted: !this.state.isCompleted});
-        this.props.completeTodoOnFirebase(this.props.index, this.state.todo);
+        this.props.completeTodoOnFirebase(this.props.index, this.state.todo, this.state.isCompleted);
     }
     
     onChangeInputText (todo) {
@@ -34,7 +35,7 @@ class TodoItem extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.textWrapper}>
-                    <TextInput multiline style={styles.text} autoCorrect={false} value={this.props.data} onChangeText={this.onChangeInputText.bind(this)} onBlur={this.onBlurInputText.bind(this)}/>
+                    <TextInput multiline style={styles.text} autoCorrect={false} value={this.state.todo} onChangeText={this.onChangeInputText.bind(this)} onBlur={this.onBlurInputText.bind(this)}/>
                 </View>
             </View>
         )
