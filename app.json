@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "create-todolist",
-    "description": "This project is really great.",
+    "description": "Basic single todo-list with Redux-thunk and Firestore as the database",
     "slug": "create-todolist",
     "privacy": "public",
     "sdkVersion": "25.0.0",
